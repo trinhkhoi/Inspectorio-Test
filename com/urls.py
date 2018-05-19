@@ -16,9 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from com.inspectorio.test.controllers import TransformationController
-
+from com.inspectorio.extracting_excel.controllers import HompageController
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^excel/extract', TransformationController.excecute_exel_file),
+    url('', HompageController.excecute_excel_file, name='index'),
 ]
