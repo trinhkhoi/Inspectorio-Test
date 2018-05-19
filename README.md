@@ -14,7 +14,7 @@ The project require a system which uses Python 3
    GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO inspectorio_acc;
 
 After finished set up environment and clone source code, we can run the project at the root of project as the following:
-# nohup python3 manage.py runserver 0.0.0.0:8000 &
+   $ nohup python3 manage.py runserver 0.0.0.0:8000 &
 And access to the website at url: http://localhost:8000/ or in the server http://149.28.23.68:8000/
 
 
