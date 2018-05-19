@@ -1,0 +1,6 @@
+There are some points that I think I need to improve later:
+1. Manage service transaction. If we have an error during extract data from excel file or insert data to database,
+   we need rollback all previous processes
+2. Map object model to database
+3. Create unit test for service
+4. Need more exactly data type in excel file.
