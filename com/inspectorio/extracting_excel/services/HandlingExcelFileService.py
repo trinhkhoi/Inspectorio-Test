@@ -44,7 +44,7 @@ def read_excel_file(excel_file):
 # return vendor object which obtains from excel
 def get_vendor(sheet):
     if sheet.cell(1, 1).value != '':
-        vendor_code = cUtil.get_number_string(sheet.cell(1, 1).value)
+        vendor_code = cUtil.get_number_string(sheet,1, 1)
         vendor_name = sheet.cell(1, 2).value
         vendor_contact = sheet.cell(2, 1).value
         vendor = Vendor(vendor_code, vendor_name, vendor_contact)
@@ -56,7 +56,7 @@ def get_vendor(sheet):
 # return factory object which obtains from excel
 def get_factory(sheet):
     if sheet.cell(3, 1).value != '':
-        factory_code = cUtil.get_number_string(sheet.cell(3, 1).value)
+        factory_code = cUtil.get_number_string(sheet, 3, 1)
         factory_name = sheet.cell(3, 2).value
         factory_address = sheet.cell(4, 1).value
         factory_contact = sheet.cell(5, 1).value
@@ -73,7 +73,7 @@ def get_factory(sheet):
 # return general information which is extracted form excel file
 def get_general_info(sheet, datemode):
     if sheet.cell(0, 1).value != '':
-        date = cUtil.get_date(sheet.cell(0, 1).value, datemode)
+        date = cUtil.get_date(sheet, 0, 1, datemode)
         bpm_vendor = sheet.cell(1, 7).value
         level = sheet.cell(3, 5).value
         auditor = sheet.cell(6, 1).value
@@ -89,12 +89,12 @@ def get_pom_info(sheet):
     pom_items = []
     for row in range(12, number_of_rows):
         if sheet.cell(row, 0).value != '':
-            vendor_pid = cUtil.get_number_string(sheet.cell(row, 0).value)
-            dpci = cUtil.get_number_string(sheet.cell(row, 1).value)
-            po_included = cUtil.get_number_string(sheet.cell(row, 2).value)
+            vendor_pid = cUtil.get_number_string(sheet, row, 0)
+            dpci = cUtil.get_number_string(sheet, row, 1)
+            po_included = cUtil.get_number_string(sheet, row, 2)
             insp_style = sheet.cell(row, 3).value
-            po_qty = cUtil.get_number(sheet.cell(row, 4).value)
-            available_qty = cUtil.get_number(sheet.cell(row, 5).value)
+            po_qty = cUtil.get_number(sheet, row, 4)
+            available_qty = cUtil.get_number(sheet, row, 5)
             description = sheet.cell(row, 6).value
             pwi = True
             if str(sheet.cell(row, 7).value).lower() == 'no':
@@ -133,11 +133,11 @@ def extract_pif_detail_sheet(sheet, datemode):
 def get_pif_info(sheet, row, datemode):
     if sheet.cell(row, 0).value != '':
         print(sheet.cell(row, 0).value)
-        vendor_pid = cUtil.get_number_string(sheet.cell(row, 0).value)
-        po_number = cUtil.get_number_string(sheet.cell(row, 2).value)
+        vendor_pid = cUtil.get_number_string(sheet, row, 0)
+        po_number = cUtil.get_number_string(sheet, row, 2)
         purpose = sheet.cell(row, 3).value
-        ship_begin_date = cUtil.get_date(sheet.cell(row, 4).value, datemode)
-        ship_end_date = cUtil.get_date(sheet.cell(row, 5).value, datemode)
+        ship_begin_date = cUtil.get_date(sheet, row, 4, datemode)
+        ship_end_date = cUtil.get_date(sheet, row, 5, datemode)
         pif_info = PifInfo(vendor_pid, po_number, purpose, ship_begin_date, ship_end_date)
         return pif_info
     return None
@@ -146,12 +146,12 @@ def get_pif_info(sheet, row, datemode):
 # extract item info table
 def get_item_info(sheet, row):
     if sheet.cell(row, 7).value != '':
-        item = cUtil.get_number_string(sheet.cell(row, 7).value)
+        item = cUtil.get_number_string(sheet, row, 7)
         item_description = sheet.cell(row, 8).value
-        po_number = cUtil.get_number_string(sheet.cell(row, 9).value)
-        order_qty = cUtil.get_number(sheet.cell(row, 10).value)
-        available_qty = cUtil.get_number(sheet.cell(row, 11).value)
-        vendor_pid = cUtil.get_number_string(sheet.cell(row, 12).value)
+        po_number = cUtil.get_number_string(sheet, row, 9)
+        order_qty = cUtil.get_number(sheet, row, 10)
+        available_qty = cUtil.get_number(sheet, row, 11)
+        vendor_pid = cUtil.get_number_string(sheet, row, 12)
         assortment_item = sheet.cell(row, 13).value if sheet.cell(row, 13).value != '' else ''
         item_info = ItemInfo(item, item_description, po_number, order_qty, available_qty, vendor_pid, assortment_item)
         return item_info
@@ -161,7 +161,7 @@ def get_item_info(sheet, row):
 # extract sip element table
 def get_sip_element(sheet, row):
     if sheet.cell(row, 21).value != '':
-        vendor_pid = str(int(sheet.cell(row, 21).value))
+        vendor_pid = cUtil.get_number_string(sheet, row, 21)
         ppr_document = cUtil.get_vailable(sheet.cell(row, 22).value)
         red_seal = cUtil.get_vailable(sheet.cell(row, 23).value)
         technical_spec = cUtil.get_vailable(sheet.cell(row, 24).value)
