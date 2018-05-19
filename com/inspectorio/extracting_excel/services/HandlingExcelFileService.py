@@ -50,7 +50,7 @@ def get_vendor(sheet):
         vendor = Vendor(vendor_code, vendor_name, vendor_contact)
         return vendor
     else:
-        raise Exception('Missing vendor information')
+        raise Exception('Missing vendor information. Please check the vendor information!')
 
 
 # return factory object which obtains from excel
@@ -67,7 +67,7 @@ def get_factory(sheet):
             factory_contact)
         return factory
     else:
-        raise Exception('Missing factory information')
+        raise Exception('Missing factory information. Please check the factory information!')
 
 
 # return general information which is extracted form excel file
@@ -80,7 +80,7 @@ def get_general_info(sheet, datemode):
         general_info = GeneralInfo(bpm_vendor, auditor, level, date)
         return general_info
     else:
-        raise Exception('Missing date of general information')
+        raise Exception('Missing date of general information. Please check the date information!')
 
 
 # return a list of pom_info objects
@@ -106,6 +106,7 @@ def get_pom_info(sheet):
     return pom_items
 
 
+# extract PIF Detail - FRI sheet
 def extract_pif_detail_sheet(sheet, datemode):
     number_of_rows = sheet.nrows
     pif_items = []
@@ -128,6 +129,7 @@ def extract_pif_detail_sheet(sheet, datemode):
     return pif_items, items, sip_elements
 
 
+# extract pif info table
 def get_pif_info(sheet, row, datemode):
     if sheet.cell(row, 0).value != '':
         print(sheet.cell(row, 0).value)
@@ -141,6 +143,7 @@ def get_pif_info(sheet, row, datemode):
     return None
 
 
+# extract item info table
 def get_item_info(sheet, row):
     if sheet.cell(row, 7).value != '':
         item = cUtil.get_number_string(sheet.cell(row, 7).value)
@@ -155,6 +158,7 @@ def get_item_info(sheet, row):
     return None
 
 
+# extract sip element table
 def get_sip_element(sheet, row):
     if sheet.cell(row, 21).value != '':
         vendor_pid = str(int(sheet.cell(row, 21).value))
@@ -184,6 +188,7 @@ def get_sip_element(sheet, row):
     return None
 
 
+# save extracted data to database
 def store_data_extracted(vendor, factory, general_info, pom_items, pif_items, items, sip_elements):
     # save vendor
     vendor_id = save_vendor_info(vendor)

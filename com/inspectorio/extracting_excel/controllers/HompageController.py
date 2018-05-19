@@ -12,10 +12,16 @@ from com.inspectorio.extracting_excel.services import HandlingExcelFileService a
 @permission_classes((permissions.AllowAny,))
 def excecute_excel_file(request):
     if "GET" == request.method:
-        return render(request, 'index.html', context=None)
+        return render(request, 'index.html', context={"success_message":'', "error_message":''})
     else:
-        print('starting handling .....')
-        excel_file = request.FILES["excel_file"]
+        success_message = None
+        error_message = None
+        try:
+            print('starting handling .....')
+            excel_file = request.FILES["excel_file"]
+            hExcelService.read_excel_file(excel_file)
+            success_message = 'Upload and process excel file successfully !'
+        except Exception as ex:
+            error_message = str(ex)
 
-        hExcelService.read_excel_file(excel_file)
-        return render(request, 'index.html', context=None)
+        return render(request, 'index.html', context={"success_message":success_message, "error_message":error_message})

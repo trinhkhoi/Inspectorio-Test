@@ -6,8 +6,12 @@
         </title>
     </head>
     <body style="margin-top: 30px;margin-left: 30px;">
+    <div style="width: 100%; text-align:center;"><h2>Welcome to Inspectorio Test !</h2></div></br></br>
+        {% if error_message %}<p style="color:red;"><strong>{{ error_message}}</strong></p>{% endif %}
+        {% if success_message %}<p style="color:green;"><strong>{{ success_message}}</strong></p>{% endif %}
         <form action="{% url "index" %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+    <label>Please select excel file to upload:</label></br>
             <input type="file"
                    title="Upload excel file"
                    name="excel_file"
